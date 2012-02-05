@@ -31,4 +31,9 @@ sub next {
     return $next_item->{item};
 }
 
+sub init {
+    my $this = shift;
+    $this->{index} = 0;
+}
+
 1;
