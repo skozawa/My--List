@@ -12,7 +12,7 @@ sub new {
     my $init = {item=>undef, next=>undef};
     my $this = {
 	items => { init => $init }, ## Listのヘッダ
-	before => $init,
+	pre => $init,
 	index => 1, ## Listの要素id
     };
     
@@ -29,8 +29,8 @@ sub append {
 	item => $item,
     };
     ## 前の要素の next を更新
-    $this->{before}->{next} = $this->{items}->{$this->{index}};
-    $this->{before} = $this->{items}->{$this->{index}};
+    $this->{pre}->{next} = $this->{items}->{$this->{index}};
+    $this->{pre} = $this->{items}->{$this->{index}};
         
     ## 要素idを更新
     $this->{index}++;
