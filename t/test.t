@@ -4,7 +4,15 @@ use strict;
 use warnings;
 use base qw(Test::Class);
 use Test::More;
+use Test::Exception;
 use My::List;
+
+BEGIN { 
+    use_ok 'My::ListItem';
+    use_ok 'My::Iterator';
+    use_ok 'My::Aggregate';
+    use_ok 'My::ItemIterator';
+}
 
 sub init : Test(1) {
     new_ok 'My::List';
@@ -52,6 +60,8 @@ sub list02 : Tests {
 	push @get_lists, $iter->next->value;
     }
     is_deeply [@get_lists], [@lists];
+    
+    dies_ok { $iter->next; } 'dies_ok test';
         
     $iter->init;
     cmp_ok $iter->next->value, "eq", $lists[0];
