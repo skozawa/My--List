@@ -4,8 +4,11 @@ use base qw(My::Iterator);
 
 sub new {
     my $class = shift;
-    my $list = shift;
-    my $this = {list => $list, index => 0};
+    my $init = shift;
+    my $this = {
+	cur => $init,
+	init => $init,
+    };
     
     return bless $this, $class;
 }
@@ -13,7 +16,7 @@ sub new {
 sub has_next {
     my $this = shift;
     ## 次の要素があるか
-    if($this->{list}->{items}->{$this->{index}}->{next_id} != -1) {
+    if(defined $this->{cur}->{next}) {
 	return 1;
     } else {
 	return 0;
@@ -23,17 +26,17 @@ sub has_next {
 sub next {
     my $this = shift;
     
-    my $cur_item = $this->{list}->{items}->{$this->{index}};
-    my $next_item = $this->{list}->{items}->{$cur_item->{next_id}};
-    
-    $this->{index} = $cur_item->{next_id};
-    
-    return $next_item->{item};
+    if(!defined $this->{cur}->{next}) {
+	die 'Item has not next';
+    }
+    ## 次の要素に更新
+    $this->{cur} = $this->{cur}->{next};
+    return $this->{cur}->{item};
 }
 
 sub init {
     my $this = shift;
-    $this->{index} = 0;
+    $this->{cur} = $this->{init};
 }
 
 1;

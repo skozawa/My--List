@@ -9,11 +9,12 @@ use My::ListItem;
 
 sub new {
     my $class = shift;
+    my $init = {item=>undef, next=>undef};
     my $this = {
-	items => { 0 => {next_id => -1} }, ## Listのヘッダ
+	items => { init => $init }, ## Listのヘッダ
+	before => $init,
 	index => 1, ## Listの要素id
-	last_id => 0 ## Listの末尾の要素id
-	};
+    };
     
     return bless $this, $class;
 }
@@ -25,20 +26,19 @@ sub append {
     my $item = My::ListItem->new({value => $value});
     ## 要素を追加
     $this->{items}->{$this->{index}} = {
-	next_id => -1, ## 次の要素id
 	item => $item,
     };
-    ## 末尾（前)の要素の next_id を更新
-    $this->{items}->{$this->{last_id}}->{next_id} = $this->{index};
-    
-    ## 末尾のidを更新
-    $this->{last_id} = $this->{index};
+    ## 前の要素の next を更新
+    $this->{before}->{next} = $this->{items}->{$this->{index}};
+    $this->{before} = $this->{items}->{$this->{index}};
+        
+    ## 要素idを更新
     $this->{index}++;
 }
 
 sub iterator {
     my $this = shift;
-    return My::ItemIterator->new($this);
+    return My::ItemIterator->new($this->{items}->{init});
 }
 
 
