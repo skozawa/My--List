@@ -1,0 +1,15 @@
+*連結リスト
+lib/My/List.pm
+lib/My/Aggregate.pm	
+lib/My/Iterator.pm
+lib/My/ItemIterator.pm
+lib/My/ListItem.pm
+
+*List.pm用テストファイル
+t/test.t
+
+*双方向連結リスト
+lib/My/DoublyList.pm
+
+*DoublyList.pm用テストファイル
+t/test2.t
