@@ -1,5 +1,8 @@
 package My::ItemIterator;
 
+use strict;
+use warnings;
+
 use base qw(My::Iterator);
 
 sub new {
